@@ -1,0 +1,27 @@
+name: she_app
+description: SHE App Flutter client
+publish_to: "none"
+
+version: 1.0.0+1
+
+environment:
+  sdk: ">=3.0.0 <4.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  
+  geolocator: ^11.0.0
+
+  location: ^5.0.3
+  permission_handler: ^11.3.1
+
+  http: ^1.2.0
+  cupertino_icons: ^1.0.8
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+flutter:
+  uses-material-design: true
