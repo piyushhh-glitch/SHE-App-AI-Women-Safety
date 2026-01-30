@@ -1,6 +1,7 @@
 from datetime import datetime
-from app.services.firebase_service import db
-from app.ai.distress_engine import is_user_in_distress
+from .firebase_service import db
+
+from ..ai.distress_engine import is_user_in_distress
 
 
 def process_sos(user_id, location, motion=None, voice_features=None):

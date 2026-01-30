@@ -1,5 +1,5 @@
 from datetime import datetime
-from app.services.firebase_service import db
+from ..services.firebase_service import db
 
 def save_live_location(user_id: str, lat: float, lng: float):
     data = {

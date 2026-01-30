@@ -1,4 +1,19 @@
+# Python
 venv/
 __pycache__/
+*.pyc
 .env
+
+# Flutter
+frontend/she_app/build/
+frontend/she_app/.dart_tool/
+frontend/she_app/.idea/
+frontend/she_app/android/.gradle/
+frontend/she_app/ios/Pods/
+
+# OS
+.DS_Store
+Thumbs.db
 backend/firebase_key.json
+frontend/she_app/.flutter-plugins-dependencies
+frontend/she_app/android/.kotlin/

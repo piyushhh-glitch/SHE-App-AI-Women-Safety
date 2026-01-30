@@ -5,8 +5,8 @@ from pydantic import BaseModel
 from datetime import datetime
 
 # 🔹 Import services
-from app.services.sos_service import process_sos
-from app.services.location_service import save_live_location
+from .services.sos_service import process_sos
+from .services.location_service import save_live_location
 
 app = FastAPI(
     title="SHE App Backend",
