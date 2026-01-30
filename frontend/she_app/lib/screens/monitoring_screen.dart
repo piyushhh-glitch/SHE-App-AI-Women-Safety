@@ -5,12 +5,8 @@ class MonitoringScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("Live Monitoring"),
-        centerTitle: true,
-      ),
-      body: Padding(
+    return SafeArea(
+      child: Padding(
         padding: const EdgeInsets.all(24),
         child: Column(
           children: [
@@ -29,7 +25,7 @@ class MonitoringScreen extends StatelessWidget {
 
             ElevatedButton(
               onPressed: () {
-                Navigator.pushNamed(context, '/circle');
+                // TEMP: keep empty or handle inside tab system
               },
               child: const Text("View SHE Circle"),
             ),

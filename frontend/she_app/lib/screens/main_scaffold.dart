@@ -15,7 +15,6 @@ class MainScaffold extends StatefulWidget {
 class _MainScaffoldState extends State<MainScaffold> {
   int _currentIndex = 0;
 
-  // 🔥 REMOVE const HERE
   final List<Widget> _screens = [
     HomeScreen(),
     MonitoringScreen(),
@@ -26,10 +25,23 @@ class _MainScaffoldState extends State<MainScaffold> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _screens[_currentIndex],
+      appBar: AppBar(
+        title: const Text("SHE App"),
+        centerTitle: true,
+      ),
+
+      body: IndexedStack(
+        index: _currentIndex,
+        children: _screens,
+      ),
+
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,
-        onTap: (index) => setState(() => _currentIndex = index),
+        onTap: (index) {
+          setState(() {
+            _currentIndex = index;
+          });
+        },
         type: BottomNavigationBarType.fixed,
         selectedItemColor: Colors.red,
         items: const [

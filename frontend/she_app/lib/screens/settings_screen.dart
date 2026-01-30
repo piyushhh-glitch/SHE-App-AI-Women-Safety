@@ -5,12 +5,8 @@ class SettingsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("Settings"),
-        centerTitle: true,
-      ),
-      body: ListView(
+    return SafeArea(
+      child: ListView(
         padding: const EdgeInsets.all(16),
         children: const [
           SettingsTile(
@@ -61,13 +57,18 @@ class SettingsTile extends StatelessWidget {
     return Card(
       elevation: 2,
       margin: const EdgeInsets.only(bottom: 12),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16),
+      ),
       child: ListTile(
         leading: CircleAvatar(
           backgroundColor: Colors.red.withOpacity(0.1),
           child: Icon(icon, color: Colors.red),
         ),
-        title: Text(title, style: const TextStyle(fontWeight: FontWeight.w600)),
+        title: Text(
+          title,
+          style: const TextStyle(fontWeight: FontWeight.w600),
+        ),
         subtitle: Text(subtitle),
         trailing: const Icon(Icons.chevron_right),
       ),

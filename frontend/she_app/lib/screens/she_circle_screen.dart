@@ -11,22 +11,20 @@ class SheCircleScreen extends StatelessWidget {
       {"name": "Verified SHE User", "distance": "1.2 km"},
     ];
 
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("SHE Circle"),
-        centerTitle: true,
-      ),
-      body: ListView.builder(
+    return SafeArea(
+      child: ListView.builder(
         padding: const EdgeInsets.all(16),
         itemCount: helpers.length,
         itemBuilder: (context, index) {
           final h = helpers[index];
           return Card(
+            margin: const EdgeInsets.only(bottom: 12),
             child: ListTile(
               leading: const Icon(Icons.person_pin_circle),
               title: Text(h["name"]!),
               subtitle: Text("Distance: ${h["distance"]}"),
-              trailing: const Icon(Icons.check_circle, color: Colors.green),
+              trailing:
+                  const Icon(Icons.check_circle, color: Colors.green),
             ),
           );
         },
