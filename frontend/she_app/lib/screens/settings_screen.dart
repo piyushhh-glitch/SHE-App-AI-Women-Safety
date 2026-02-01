@@ -1,76 +1,136 @@
 import 'package:flutter/material.dart';
+import '../services/app_settings.dart';
+import 'package:geolocator/geolocator.dart';
 
-class SettingsScreen extends StatelessWidget {
+class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
 
   @override
+  State<SettingsScreen> createState() => _SettingsScreenState();
+}
+
+class _SettingsScreenState extends State<SettingsScreen> {
+  bool autoSOS = true;
+  bool sound = true;
+  bool vibration = true;
+
+  @override
+  void initState() {
+    super.initState();
+    loadSettings();
+  }
+
+  Future<void> loadSettings() async {
+    autoSOS = await AppSettings.getAutoSOS();
+    sound = await AppSettings.getSound();
+    vibration = await AppSettings.getVibration();
+    setState(() {});
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: ListView(
+    return Scaffold(
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        title: const Text("Settings"),
+        centerTitle: true,
+      ),
+      body: ListView(
         padding: const EdgeInsets.all(16),
-        children: const [
-          SettingsTile(
-            icon: Icons.contacts,
+        children: [
+
+          /// 🚨 Emergency Contacts (placeholder for now)
+          settingsTile(
+            icon: Icons.contact_phone,
             title: "Emergency Contacts",
             subtitle: "Manage trusted contacts",
+            onTap: () {
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text("Contacts screen coming next")),
+              );
+            },
           ),
-          SettingsTile(
-            icon: Icons.security,
-            title: "Auto SOS Detection",
-            subtitle: "AI-based distress detection",
+
+          /// 🤖 Auto SOS
+          SwitchListTile(
+            title: const Text("Auto SOS Detection"),
+            subtitle: const Text("AI-based distress detection"),
+            value: autoSOS,
+            onChanged: (value) async {
+              await AppSettings.setAutoSOS(value);
+              setState(() => autoSOS = value);
+            },
           ),
-          SettingsTile(
+
+          /// 📍 Location Permission
+          settingsTile(
             icon: Icons.location_on,
             title: "Location Permissions",
             subtitle: "Always allow during SOS",
+            onTap: () async {
+              await Geolocator.requestPermission();
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text("Location permission requested")),
+              );
+            },
           ),
-          SettingsTile(
-            icon: Icons.notifications,
-            title: "Alert Preferences",
-            subtitle: "Sound, vibration & alerts",
+
+          /// 🔔 Alert Preferences
+          SwitchListTile(
+            title: const Text("Sound Alerts"),
+            value: sound,
+            onChanged: (value) async {
+              await AppSettings.setSound(value);
+              setState(() => sound = value);
+            },
           ),
-          SettingsTile(
-            icon: Icons.info_outline,
+
+          SwitchListTile(
+            title: const Text("Vibration Alerts"),
+            value: vibration,
+            onChanged: (value) async {
+              await AppSettings.setVibration(value);
+              setState(() => vibration = value);
+            },
+          ),
+
+          /// ℹ️ About
+          settingsTile(
+            icon: Icons.info,
             title: "About SHE App",
             subtitle: "AI-powered women safety system",
+            onTap: () {
+              showAboutDialog(
+                context: context,
+                applicationName: "SHE App",
+                applicationVersion: "1.0.0",
+                children: [
+                  const Text(
+                    "SHE App detects distress using AI and helps women trigger SOS quickly and safely.",
+                  ),
+                ],
+              );
+            },
           ),
         ],
       ),
     );
   }
-}
 
-class SettingsTile extends StatelessWidget {
-  final IconData icon;
-  final String title;
-  final String subtitle;
-
-  const SettingsTile({
-    super.key,
-    required this.icon,
-    required this.title,
-    required this.subtitle,
-  });
-
-  @override
-  Widget build(BuildContext context) {
+  Widget settingsTile({
+    required IconData icon,
+    required String title,
+    required String subtitle,
+    required VoidCallback onTap,
+  }) {
     return Card(
-      elevation: 2,
       margin: const EdgeInsets.only(bottom: 12),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16),
-      ),
       child: ListTile(
-        leading: CircleAvatar(
-          backgroundColor: Colors.red.withOpacity(0.1),
-          child: Icon(icon, color: Colors.red),
-        ),
-        title: Text(
-          title,
-          style: const TextStyle(fontWeight: FontWeight.w600),
-        ),
+        leading: Icon(icon, color: Colors.red),
+        title: Text(title),
         subtitle: Text(subtitle),
         trailing: const Icon(Icons.chevron_right),
+        onTap: onTap,
       ),
     );
   }

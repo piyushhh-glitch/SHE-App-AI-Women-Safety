@@ -4,7 +4,7 @@ import 'dart:convert';
 import 'dart:async';
 
 class HomeScreen extends StatefulWidget {
-  HomeScreen({super.key});
+  const HomeScreen({super.key});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -41,6 +41,9 @@ class _HomeScreenState extends State<HomeScreen>
     return Colors.green;
   }
 
+  // =======================
+  // SOS API CALL
+  // =======================
   Future<void> sendSOS() async {
     setState(() {
       isSending = true;
@@ -61,7 +64,6 @@ class _HomeScreenState extends State<HomeScreen>
 
       if (response.statusCode == 200) {
         setState(() => status = "🚨 AUTO SOS Triggered");
-        Navigator.pushNamed(context, '/sos');
       } else {
         setState(() => status = "❌ SOS Failed");
       }
@@ -87,6 +89,9 @@ class _HomeScreenState extends State<HomeScreen>
     });
   }
 
+  // =======================
+  // UI (NO Scaffold here!)
+  // =======================
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -97,7 +102,11 @@ class _HomeScreenState extends State<HomeScreen>
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(Icons.shield, size: 120, color: getStatusColor()),
+                Icon(
+                  Icons.shield,
+                  size: 120,
+                  color: getStatusColor(),
+                ),
                 const SizedBox(height: 20),
 
                 Card(
@@ -120,6 +129,7 @@ class _HomeScreenState extends State<HomeScreen>
 
                 const SizedBox(height: 40),
 
+                // 🔴 SOS BUTTON
                 ScaleTransition(
                   scale: _pulseController,
                   child: GestureDetector(
@@ -149,6 +159,7 @@ class _HomeScreenState extends State<HomeScreen>
           ),
         ),
 
+        // ⏱️ COUNTDOWN OVERLAY
         if (countdown > 0)
           IgnorePointer(
             ignoring: true,

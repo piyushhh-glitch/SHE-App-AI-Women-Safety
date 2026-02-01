@@ -16,7 +16,7 @@ class SHEApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'SHE App',
       theme: ThemeData(primarySwatch: Colors.red),
-      home: const WelcomeScreen(),
+      home: const MainScaffold(),
       routes: {
         '/main': (context) => const MainScaffold(),
         '/sos': (context) => const SOSActiveScreen(),

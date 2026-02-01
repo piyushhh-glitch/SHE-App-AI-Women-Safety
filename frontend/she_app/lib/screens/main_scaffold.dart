@@ -4,6 +4,7 @@ import 'home_screen.dart';
 import 'monitoring_screen.dart';
 import 'she_circle_screen.dart';
 import 'settings_screen.dart';
+import 'she_bot_chat.dart';
 
 class MainScaffold extends StatefulWidget {
   const MainScaffold({super.key});
@@ -15,12 +16,29 @@ class MainScaffold extends StatefulWidget {
 class _MainScaffoldState extends State<MainScaffold> {
   int _currentIndex = 0;
 
-  final List<Widget> _screens = [
-    HomeScreen(),
-    MonitoringScreen(),
-    SheCircleScreen(),
-    SettingsScreen(),
-  ];
+  late final List<Widget> _screens;
+
+  @override
+  void initState() {
+    super.initState();
+
+    // ⚠️ SCREEN COUNT = TAB COUNT (5)
+    _screens = [
+      HomeScreen(),
+      MonitoringScreen(),
+      SheCircleScreen(),
+
+      // ✅ SHE BOT TAB
+      SheBotChatScreen(
+        onTriggerSOS: () {
+          // SOS already handled by backend
+          // (same endpoint as HomeScreen)
+        },
+      ),
+
+      SettingsScreen(),
+    ];
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,20 +48,23 @@ class _MainScaffoldState extends State<MainScaffold> {
         centerTitle: true,
       ),
 
+      // 🔹 MAIN CONTENT
       body: IndexedStack(
         index: _currentIndex,
         children: _screens,
       ),
 
+      // 🔹 BOTTOM NAVIGATION (5 TABS)
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,
+        type: BottomNavigationBarType.fixed,
+        selectedItemColor: Colors.red,
+        unselectedItemColor: Colors.grey,
         onTap: (index) {
           setState(() {
             _currentIndex = index;
           });
         },
-        type: BottomNavigationBarType.fixed,
-        selectedItemColor: Colors.red,
         items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.shield),
@@ -56,6 +77,10 @@ class _MainScaffoldState extends State<MainScaffold> {
           BottomNavigationBarItem(
             icon: Icon(Icons.group),
             label: "Circle",
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.chat_bubble),
+            label: "SHE Bot",
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.settings),

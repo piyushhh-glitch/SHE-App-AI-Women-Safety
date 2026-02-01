@@ -3,3 +3,9 @@ uvicorn
 torch
 firebase-admin
 cryptography
+torch
+transformers
+librosa
+soundfile
+numpy
+python-multipart
